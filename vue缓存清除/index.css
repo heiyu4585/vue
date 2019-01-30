@@ -1,0 +1,82 @@
+* {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+#app {
+  height: 100%;
+  padding-top: 50px;
+  overflow: hidden;
+  overflow-y: auto;
+}
+
+.tab-list {
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: #fff;
+  display: flex;
+  justify-content: space-between;
+}
+
+.tab-item {
+  display: inline-block;
+  /* width: 80px; */
+  flex: 1;
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+  background-color: #fff;
+  color: #000;
+  font-size: 30px;
+}
+
+.list-item-one,
+.list-item-two,
+.list-item-three,
+.list-item-four {
+  height: 200px;
+  font-size: 40px;
+  line-height: 200px;
+  text-align: center;
+  color: #fff;
+}
+
+.list-one .list-item-one {
+  background: #f00;
+}
+
+.list-one .list-item-one:nth-child(odd) {
+  background: #00f;
+}
+
+.list-two .list-item-two {
+  background: greenyellow;
+}
+
+.list-two .list-item-two:nth-child(odd) {
+  background: purple;
+}
+
+.list-three .list-item-three {
+  background: rgb(255, 47, 168);
+}
+
+.list-three .list-item-three:nth-child(odd) {
+  background: rgb(0, 128, 85);
+}
+
+.list-four .list-item-four {
+  background: rgb(241, 255, 47);
+}
+
+.list-four .list-item-four:nth-child(odd) {
+  background: rgb(98, 0, 128);
+}

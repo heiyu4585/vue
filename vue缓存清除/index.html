@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <link rel="stylesheet" href="./index.css">
+</head>
+
+<body>
+  <div id="app">
+    <ul class="tab-list">
+      <li class="tab-item" @click="goList(1)">列表1</li>
+      <li class="tab-item" @click="goList(2)">列表2</li>
+      <li class="tab-item" @click="goList(3)">列表3</li>
+      <li class="tab-item" @click="goList(4)">列表4</li>
+    </ul>
+    <keep-alive :include="includes">
+      <router-view></router-view>
+    </keep-alive>
+  </div>
+  <script src="./js/vue.js"></script>
+  <script src="./js/vue-router.js"></script>
+  <script src="./js/util.js"></script>
+  <script src="./js/index.js"></script>
+</body>
+
+</html>
