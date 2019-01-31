@@ -6,45 +6,41 @@
  * @param {VNode} vm 当前组件实例
  * @param {Boolean} manualDelete 是否要手动移除缓存组件，弥补当路由缺少 level 时，清空组件缓存的不足
  */
-// function destroyComponent (to, from, next, vm, manualDelete = false) {
-//   // 禁止向上缓存
-//   if (
-//       (
-//         from &&
-//         from.meta.level &&
-//         to.meta.level &&
-//         from.meta.level > to.meta.level
-//       ) ||
-//       manualDelete
-//     ) {
-//     const { data, parent, componentOptions, key } = vm.$vnode
-//     if (vm.$vnode && data.keepAlive) {
-//       if (parent && parent.componentInstance && parent.componentInstance.cache) {
-//         if (componentOptions) {
-//           const cacheCompKey = !key ?
-//                       componentOptions.Ctor.cid + (componentOptions.tag ? `::${componentOptions.tag}` : '')
-//                       :
-//                       key
-//           const cache = parent.componentInstance.cache
-//           const keys = parent.componentInstance.keys
-//           // 清除缓存 component'key
-//           if (cache[cacheCompKey]) {
-//             if (keys.length) {
-//               let index = keys.indexOf(cacheCompKey)
-//               if (index > -1) {
-//                 keys.splice(index, 1)
-//               }
-//             }
-//             delete cache[cacheCompKey]
-//           }
-//         }
-//       }
-//     }
-//     // 销毁缓存组件
-//     vm.$destroy()
-//   }
-//   next()
-// }
+function destroyComponent (to, from, next, vm, manualDelete = false) {
+  // 禁止向上缓存
+  if (
+      (
+        from &&
+        from.meta.level &&
+        to.meta.level &&
+        from.meta.level > to.meta.level
+      ) ||
+      manualDelete
+    ) {
+    const { data, parent, componentOptions, key } = vm.$vnode
+    if (vm.$vnode && data.keepAlive) {
+      if (parent && parent.componentInstance && parent.componentInstance.cache) {
+        if (componentOptions) {
+          const cacheCompKey = !key ?
+                      componentOptions.Ctor.cid + (componentOptions.tag ? `::${componentOptions.tag}` : '')
+                      :
+                      key
+          const cache = parent.componentInstance.cache
+          const keys = parent.componentInstance.keys
+          const { include, index } = inArray(cacheCompKey, keys)
+          // 清除缓存 component'key
+          if (include && cache[cacheCompKey]) {
+            keys.splice(index, 1)
+            delete cache[cacheCompKey]
+          }
+        }
+      }
+    }
+    // 销毁缓存组件
+    vm.$destroy()
+  }
+  next()
+}
 
 
 // 第二种清除缓存方法
@@ -322,7 +318,7 @@ const router = new VueRouter({
 })
 
 // 第一种清缓存方法
-// Vue.prototype.$dc = destroyComponent
+Vue.prototype.$dc = destroyComponent
 // 第二种清缓存方法
 Vue.prototype.$mc = new manageCachedComponents()
 
