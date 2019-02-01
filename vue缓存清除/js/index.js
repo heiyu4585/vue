@@ -68,6 +68,7 @@ class manageCachedComponents {
     const { mc_cachedCompnentsInfo } = this
     const { $vnode, $route, includes } = Vnode
     const { componentOptions, parent } = $vnode
+    if (!parent) return
     const { keys, cache } = parent.componentInstance
     const componentName = componentOptions.Ctor.options.name
     const key = !$vnode.key
@@ -75,7 +76,7 @@ class manageCachedComponents {
                 : $vnode.key
     const routeLevel = $route.meta.level
     const { include } = inArray(componentName, includes)
-    if (include && !hasOwn(mc_cachedCompnentsInfo, componentName)) {
+    if (include && !hasOwn(componentName, mc_cachedCompnentsInfo)) {
       mc_cachedCompnentsInfo['cache-com::' + componentName] = {
         // 组件名称
         componentName,
@@ -131,14 +132,13 @@ class manageCachedComponents {
   mc_removeCachedByComponentName (componentName) {
     if (!isArray(componentName) && typeof componentName !== 'string') {
       throw new TypeError(`移除的组件可以是 array 或者 string，当前类型为: ${typeof componentName}`)
-      return
     }
     const { mc_cachedCompnentsInfo } = this
     if (isArray(componentName)) {
       const unKnowComponents = []
       for (const name of componentName) {
         const compName = `cache-com::${name}`
-        if (hasOwn(mc_cachedCompnentsInfo, compName)) {
+        if (hasOwn(compName, mc_cachedCompnentsInfo)) {
           const { key } = mc_cachedCompnentsInfo[compName]
           this.mc_removeCachedComponent(key, compName)
         } else {
@@ -154,7 +154,7 @@ class manageCachedComponents {
     }
 
     const compName = `cache-com::${componentName}`
-    if (hasOwn(mc_cachedCompnentsInfo, compName)) {
+    if (hasOwn(compName, mc_cachedCompnentsInfo)) {
       const { key } = mc_cachedCompnentsInfo[compName]
       this.mc_removeCachedComponent(key, compName)
     } else {

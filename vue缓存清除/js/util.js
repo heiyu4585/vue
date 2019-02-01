@@ -13,6 +13,6 @@ function isArray (array) {
   return Array.isArray(array)
 }
 
-function hasOwn (obj, key) {
+function hasOwn (key, obj) {
   return hasOwnProperty.call(obj, key)
 }
