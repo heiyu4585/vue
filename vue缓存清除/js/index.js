@@ -68,16 +68,16 @@ class manageCachedComponents {
     const { mc_cachedCompnentsInfo } = this
     const { $vnode, $route, includes } = Vnode
     const { componentOptions, parent } = $vnode
-    if (!parent) return
-    const { keys, cache } = parent.componentInstance
     const componentName = componentOptions.Ctor.options.name
-    const key = !$vnode.key
-                ? componentOptions.Ctor.cid + (componentOptions.tag ? `::${componentOptions.tag}` : '')
-                : $vnode.key
-    const routeLevel = $route.meta.level
+    const compName = `cache-com::${componentName}`
     const { include } = inArray(componentName, includes)
-    if (include && !hasOwn(componentName, mc_cachedCompnentsInfo)) {
-      mc_cachedCompnentsInfo['cache-com::' + componentName] = {
+    if (parent && include && !hasOwn(compName, mc_cachedCompnentsInfo)) {
+      const { keys, cache } = parent.componentInstance
+      const key = !$vnode.key
+                  ? componentOptions.Ctor.cid + (componentOptions.tag ? `::${componentOptions.tag}` : '')
+                  : $vnode.key
+      const routeLevel = $route.meta.level
+      mc_cachedCompnentsInfo[compName] = {
         // 组件名称
         componentName,
         // 缓存组件的 key
