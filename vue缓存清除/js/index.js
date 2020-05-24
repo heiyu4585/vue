@@ -349,6 +349,7 @@ Vue.mixin({
   },
 
   activated () {
+    console.log(this)
     this.$mc.mc_addCacheComponentToCacheList(this)
   },
 
